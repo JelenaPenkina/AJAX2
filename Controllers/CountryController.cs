@@ -1,9 +1,9 @@
-﻿using AJAX_new.Models;
+﻿using AJAX2.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 
-namespace AJAX_new.Controllers
+namespace AJAX2.Controllers
 {
     public class CountryController : Controller
     {
@@ -37,14 +37,14 @@ namespace AJAX_new.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateModalFrom()
+        public IActionResult CreateModalForm()
         {
             Country country = new Country();
             return PartialView("_CreateModalForm", country);
         }
 
         [HttpPost]
-        public IActionResult CreateModalFrom(Country country)
+        public IActionResult CreateModalForm(Country country)
         {
             _context.Add(country);
             _context.SaveChanges();

@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>AJAX_new</RootNamespace>
+    <RootNamespace>AJAX2</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

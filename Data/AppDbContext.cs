@@ -1,8 +1,8 @@
-﻿using AJAX_new.Models;
+﻿using AJAX2.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
-namespace AJAX_new.Data
+namespace AJAX2.Data
 {
     public class AppDbContext : DbContext
     {

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AJAX_new.Models
+namespace AJAX2.Models
 {
     public class Customer
     {

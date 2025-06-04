@@ -1,9 +1,9 @@
-﻿using AJAX_new.Models;
+﻿using AJAX2.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 
-namespace AJAX_new.Controllers
+namespace AJAX2.Controllers
 {
     public class CustomerController : Controller
     {
@@ -171,8 +171,8 @@ namespace AJAX_new.Controllers
                     Value = n.Id.ToString(),
                     Text = n.Name
                 }).ToList();
-            return cities;
 
+            return cities;
         }
     }
 }

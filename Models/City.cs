@@ -1,4 +1,4 @@
-﻿namespace AJAX_new.Models
+﻿namespace AJAX2.Models
 {
     public class City
     {

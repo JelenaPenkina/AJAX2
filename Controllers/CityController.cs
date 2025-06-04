@@ -1,9 +1,9 @@
-﻿using AJAX_new.Models;
+﻿using AJAX2.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 
-namespace AJAX_new.Controllers
+namespace AJAX2.Controllers
 {
     public class CityController : Controller
     {
@@ -121,7 +121,7 @@ namespace AJAX_new.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateModalFrom(City city)
+        public IActionResult CreateModalForm(City city)
         {
             _context.Add(city);
             _context.SaveChanges();

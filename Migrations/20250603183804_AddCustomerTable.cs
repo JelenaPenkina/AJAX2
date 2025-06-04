@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace AJAX_new.Migrations
+namespace AJAX2.Migrations
 {
     /// <inheritdoc />
     public partial class AddCustomerTable : Migration

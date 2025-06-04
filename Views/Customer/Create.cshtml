@@ -1,4 +1,4 @@
-﻿@model AJAX_new.Models.Customer
+﻿@model AJAX2.Models.Customer
 
 @{
     ViewData["Title"] = "Create";
@@ -47,9 +47,18 @@
                 <span asp-validation-for="EmailId" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
-                <label asp-for="CountryId" class="control-label"></label>
-                <select asp-for="CountryId" class="form-control" asp-items="ViewBag.Countries" onchange="FillCities(this, 'lstCity');"></select>
+            <div class="form-group btn-group col-12">
+                <div class="col-11">
+                    <label asp-for="CountryId" class="control-label"></label>
+                    <select id="lstCountryId" asp-for="CountryId" class="form-control" asp-items="ViewBag.Countries" 
+                    onchange="FillCities(this, 'lstCity');"></select>
+                </div>
+
+                <div class="col-1 mt-4">
+                    <button class="btn btn-success" onclick="ShowCountryCreateModal();">
+                        +
+                    </button>
+                </div>
             </div>
 
             <div class="form-group">
@@ -60,7 +69,7 @@
             <div class="col-mid-12 btn-group pb-2">
                 <div class="form-group col-4 p-0">
                     <label asp-for="ProfilePhoto" class="control-label"></label>
-                    <img id="PreviewPhoto" src="~/images/noimage.png" alt="Logo Image"
+                    <img id="PreviewPhoto" src="~/images/@Model.PhotoUrl" alt="Logo Image"
                          width="125" height="125" />
                     <span asp-validation-for="PhotoUrl" class="text-danger"></span>
                 </div>
@@ -81,7 +90,7 @@
 
             <div class="form-group pt-0 mt-0">
                 <div id="HiddenDiv" style="visibility: hidden">
-                    <input asp-for="PhotoUrl" id="PhotoUrl" value="" />
+                    <input asp-for="PhotoUrl" id="PhotoUrl" />
                 </div>
             </div>
         </form>
@@ -96,6 +105,27 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
 <script type="text/javascript">
+
+    function ShowCountryCreateModal() {
+        $.ajax(
+            {
+                url: "/country/CreateModalForm",
+                type: 'get',
+                success: function (response) {
+                   $("#DivCreateDialog").html(response);
+                   ShowCreateModalForm();
+                }
+            });
+
+        return;
+    }
+
+        //    $.get("/country/CreateModalForm", function (response) {
+        //        $('#DivCreateDialog').html(response);
+        //       var modal = bootstrap.Modal.getOrCreateInstance(document.getElementById('DivCreateDialogHolder'));
+        //        modal.show();
+        //   });
+        //}
 
 </script>
 }
