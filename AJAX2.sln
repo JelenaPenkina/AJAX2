@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36202.13
+VisualStudioVersion = 17.14.36202.13 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AJAX new", "AJAX new.csproj", "{D60885EC-AFE8-444B-8E3D-544308AA505A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AJAX2", "AJAX2.csproj", "{D60885EC-AFE8-444B-8E3D-544308AA505A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
