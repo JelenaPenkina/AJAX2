@@ -10,6 +10,8 @@ namespace AJAX2.Controllers
         private readonly AppDbContext _context;
 
         private readonly IWebHostEnvironment _webHost;
+        private readonly ILogger<CustomerController> _logger;
+
         public CustomerController(AppDbContext context, IWebHostEnvironment webHost)
         {
             _context = context;
@@ -35,13 +37,14 @@ namespace AJAX2.Controllers
         public IActionResult Create(Customer customer)
         {
 
-            string uniqueFileName = GetProfilePhotoFileName(customer);
-            customer.PhotoUrl = uniqueFileName;
+           string uniqueFileName = GetProfilePhotoFileName(customer);
+           customer.PhotoUrl = uniqueFileName;
 
             _context.Add(customer);
-            _context.SaveChanges();
+           _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
+
 
         [HttpGet]
         public IActionResult Details(int Id)
@@ -98,10 +101,32 @@ namespace AJAX2.Controllers
         [HttpPost]
         public IActionResult Delete(Customer customer)
         {
-            _context.Attach(customer);
-            _context.Entry(customer).State = EntityState.Deleted;
-            _context.SaveChanges();
-            return RedirectToAction(nameof(Index));
+            //_context.Attach(customer);
+            //_context.Entry(customer).State = EntityState.Deleted;
+            // _context.SaveChanges();
+            //return RedirectToAction(nameof(Index));
+
+
+            try
+            {
+                // Laadi klient andmebaasist uuesti, et tagada täielik objekt
+                var existingCustomer = _context.Customers.Find(customer.Id);
+
+                if (existingCustomer == null)
+                {
+                    return NotFound();
+                }
+
+                _context.Customers.Remove(existingCustomer);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting customer");
+                ModelState.AddModelError("", "Kustutamine ebaõnnestus");
+                return View(customer);
+            }
         }
 
         private List<SelectListItem> GetCountries()

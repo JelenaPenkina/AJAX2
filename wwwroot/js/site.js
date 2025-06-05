@@ -20,17 +20,16 @@ function ShowCityCreateModal() {
 
     var lstCountryCtrl = document.getElementById('lstCountryId');
     var countryId = lstCountryCtrl.options[lstCountryCtrl.selectedIndex].value;
+    
+    $.ajax({
+        url: "/city/CreateModalForm?countryId=" + countryId,
+        type: 'get',
+        success: function (response) {
+            $("#DivCreateDialog").html(response);
+            ShowCreateModalForm();
+        }
+    });
 
-    $.ajax(
-        {
-            url: "/city/CreateModalForm?countryid=" + countryid,
-            type: 'get',
-            success: function (response) {
-                $("#DivCreateDialog").html(response);
-                ShowCreateModalForm();
-            }
-        });
-    return;
 }
 
 function FillCities(lstCountryCtrl, lstCityId) {
@@ -63,13 +62,18 @@ function FillCities(lstCountryCtrl, lstCityId) {
 
 $(".custom-file-input").on("change", function () {
     var fileName = $(this).val().split("\\").pop();
+    var preview = document.getElementById('PreviewPhoto');
 
-    document.getElementById('PreviewPhoto').src = window.URL.createObjectURL(this.files[0]);
+    if (this.files && this.files[0]) {
+        preview.src = URL.createObjectURL(this.files[0]);
+        preview.style.display = 'block';
+    }
 
+    $(this).next('.custom-file-label').html(fileName);
     document.getElementById('PhotoUrl').value = fileName;
 });
 
-function ShowCreateModalFrom() {
+function ShowCreateModalForm() { 
     $("#DivCreateDialogHolder").modal('show');
     return;
 }
@@ -82,40 +86,68 @@ function submitModalForm() {
 function refreshCountryList() {
     var btnBack = document.getElementById('dupBackBtn');
     btnBack.click();
-    FillCoutries("lstCountryId");
+    FillCountries("lstCountryId"); 
 }
 
 function refreshCityList() {
-   var btnBack = document.getElementById('dupBackBtn');
+    var btnBack = document.getElementById('dupBackBtn');
     btnBack.click();
     var lstCountryCtrl = document.getElementById('lstCountryId');
-    FillCities(lstCountryCtrl, "lstCity");
+    FillCities(lstCountryCtrl, "lstCityId");
 }
 
-function FillCoutries(lstCountrId) {
-
-    var lstCountries = $("#" + lstCityId);
+function FillCountries(lstCountryId) {
+    var lstCountries = $("#" + lstCountryId);
     lstCountries.empty();
 
-    lstCountries.append($('<option/>',
-        {
-            value: null,
-            text: "Select City"
-        }));
+    lstCountries.append($('<option/>', {
+        value: null,
+        text: "Select Country" 
+    }));
 
-    var selectedCountry = lstCountryCtrl.options[lstCountryCtrl.selectedIndex].value;
-
-    $.getJSON('/country/GetCountries', { countryId: selectedCountry }, function (cities) {
-        if (cities != null && !jQuery.isEmptyObject(cities)) {
-            $.each(cities, function (index, city) {
-                lstCities.append($('<option/>',
-                    {
-                        value: city.value,
-                        text: city.text
-                    }));
+    $.getJSON('/Country/GetCountries', function (countries) { 
+        if (countries != null && !jQuery.isEmptyObject(countries)) {
+            $.each(countries, function (index, country) {
+                lstCountries.append($('<option/>', {
+                    value: country.value,
+                    text: country.text
+                }));
             });
-        };
+        }
 
-    }
+    });
     return;
 }
+
+function getCountries() {
+    fetch('/Country/GetCountries')
+        .then(response => response.json())
+        .then(data => {
+            const select = document.getElementById('countrySelect');
+            select.innerHTML = '';
+            data.forEach(country => {
+                const option = new Option(country.name, country.id);
+                select.add(option);
+            });
+        });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    getCountries();
+
+    document.getElementById('countrySelect').addEventListener('change', function () {
+        const countryId = this.value;
+        if (countryId) {
+            fetch(`/City/GetCitiesByCountry?countryId=${countryId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const citySelect = document.getElementById('citySelect');
+                    citySelect.innerHTML = '';
+                    data.forEach(city => {
+                        const option = new Option(city.name, city.id);
+                        citySelect.add(option);
+                    });
+                });
+        }
+    });
+});
